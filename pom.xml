@@ -8,8 +8,8 @@
 		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>colmeia.api</groupId>
-	<artifactId>colmeia-api</artifactId>
+	<groupId>com.colmeia</groupId>
+	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>colmeia-api</name>
 	<description>Demo project for Spring Boot</description>
