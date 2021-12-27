@@ -1,10 +1,10 @@
 package com.colmeia.api.entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -15,9 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,60 +29,45 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_cliente")
+@Table(name = "cliente")
 public class Cliente implements Serializable{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	//ID
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 	
-	//DATA DE CRIACAO
 	@Column(name = "data_criacao", updatable = false)
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
-	private LocalDate dataCriacao = LocalDate.now();
+	private LocalDate dataCriacao;
 	
-	//NOME
 	@Column(name = "nome")
-	@NotBlank(message = "O campo nome é obrigatório.")
 	private String nome;
 	
-	//TIPO DO CLIENTE
-	@Column(name = "tipo_cliente", updatable = false)
+	@Column(name = "telefone")
+	private String telefone;
+	
+	@Column(name = "tipo_cliente")
     @Enumerated(EnumType.STRING)
-	@NotBlank(message = "O campo tipo de cliente é obrigatório.")
+	
 	private TipoCliente tipoCliente;
 	
-	//CPF OU CNPJ
 	@Column(name = "cpf_cnpj")
-	@NotBlank(message = "O campo cpf/cnpj é obrigatório.")
-	@Size(min = 11, max = 14)
+	
 	private String cpfOuCnpj;
 		
-	//ENDERECO
 	@Embedded
 	private Endereco endereco;
 	
-	//CONTAS
-	@OneToMany(mappedBy="cliente")
-	private Set<Conta> contas;
 	
-	//TELEFONE
-	@Column(name = "telefone")
-	@NotBlank(message = "O campo telefone é obrigatório.")
-	private String telefone;
+	@OneToMany(mappedBy = "cliente", cascade=CascadeType.PERSIST)
+	private List<Conta> contas;
 	
-	@Column(name = "saldo_inicial", updatable = false)
-	@NotBlank(message = "O campo saldo inicial é obrigatório.")
-	private BigDecimal saldoInicial;
-	
-	// Métodos auxiliares
 	
 	public boolean isPessoaFisica() {
 		if(getTipoCliente() == TipoCliente.PF) {
@@ -102,7 +85,7 @@ public class Cliente implements Serializable{
 	
 	public boolean isCampoCpfValido( ) {
 		String cpf = this.cpfOuCnpj;
-		return cpf.matches("(^\\d{3}\\x2E\\d{3}\\x2E\\d{3}\\x2D\\d{2}$)");
+		return cpf.matches("(^\\d{3}.\\d{3}.\\d{3}-\\d{2}$)");
 		
 	}
 	
