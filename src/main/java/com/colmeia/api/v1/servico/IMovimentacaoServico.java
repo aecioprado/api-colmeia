@@ -12,8 +12,6 @@ public interface IMovimentacaoServico {
 
 	public Boolean excluirMovimentacaoFormaLogica(Long id);
 	
-	//public List<Movimentacao> listarMovimentacaoPorContaId(Long id);
-
 	public Movimentacao pesquisarMovimentacaoPorId(Long id);
 
 	public List<Movimentacao> listarMovimentacaoPorContaId(Long id);
