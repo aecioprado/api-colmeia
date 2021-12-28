@@ -4,23 +4,23 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.colmeia.api.entidades.enums.TipoMovimentacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,44 +30,38 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_movimentacao")
+@Table(name = "movimentacao")
 public class Movimentacao implements Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-
-	// ID
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Embedded
-	private ContaClientePK clienteContaPk;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="conta_id")
+	private Conta conta;
+	
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+	private Cliente cliente;
 
-	// DATA
-	@Column(name = "data")
+	@Column(name = "data", updatable = false)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
-	@NotNull
 	private LocalDate data;
 
-	// TIPO DE MOVIMENTACAO
-	@Column(name = "tipo_movimentacao")
+	@Column(name = "tipo_movimentacao", updatable = false)
 	@Enumerated(EnumType.STRING)
-	@NotBlank(message = "O campo tipo de cliente é obrigatório.")
 	private TipoMovimentacao tipoMovimentacao;
 
-	// VALOR
-	@Column(name = "valor")
-	@NotBlank(message = "O campo saldo inicial é obrigatório.")
-	@DecimalMin(value = "0.0", inclusive = false)
-	@Digits(integer = 10, fraction = 2)
-	private BigDecimal saldoInicial;
+	@Column(name = "valor", updatable = false)
+	private BigDecimal valor;
 
-	// MOVIMENTACAO CANCELADA
-	@Column(name = "movimentacao_cancelada")
+	@Column(name = "movimentacao_cancelada", updatable = true)
 	private Boolean movimentacaoCancelada = false;
 
 }
