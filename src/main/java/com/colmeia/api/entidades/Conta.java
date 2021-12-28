@@ -2,6 +2,7 @@ package com.colmeia.api.entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -44,5 +46,9 @@ public class Conta implements Serializable{
 	
 	@Column(name = "descricao")
 	private String descricao;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "conta", cascade=CascadeType.PERSIST)
+	private List<Movimentacao> movimentacoes; 
 	
 }
