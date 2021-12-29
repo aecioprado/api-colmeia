@@ -26,6 +26,5 @@ public interface IMovimentacaoRepositorio extends JpaRepository<Movimentacao, Lo
 	"where m.cliente_id = :cliente and m.movimentacao_cancelada = false", nativeQuery=true)
 	public BigDecimal quantidadeTotalMovimentacoes(@Param("cliente")Long cliente);
 
-	//public BigDecimal carregarSaldoInicial(Long cliente, Long conta);
 
 }

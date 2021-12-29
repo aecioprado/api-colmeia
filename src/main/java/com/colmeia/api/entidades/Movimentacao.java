@@ -42,12 +42,12 @@ public class Movimentacao implements Serializable {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="conta_id")
+	@JoinColumn(name="conta_id", updatable = false)
 	private Conta conta;
 	
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id", updatable = false)
 	private Cliente cliente;
 
 	@Column(name = "data", updatable = false)
