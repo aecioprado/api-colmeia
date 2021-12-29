@@ -32,7 +32,7 @@ public class RelatorioController {
 	}
 	
 	
-	@GetMapping("/saldo-por-cliente/{id}")
+	@GetMapping("/saldo-por-cliente-desde-inicio/{id}")
 	public ResponseEntity<RelatorioSaldoClienteDTO> listarSaldoPorCliente(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(this.relatorioSaldoClienteServico.relatorioSaldoCliente(id));
 	}

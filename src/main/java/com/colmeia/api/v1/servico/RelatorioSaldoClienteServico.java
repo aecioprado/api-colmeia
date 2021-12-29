@@ -46,6 +46,7 @@ public class RelatorioSaldoClienteServico implements IRelatorioSaldoClienteServi
 
 		//MONTAGEM DO RELATÓRIO
 		RelatorioSaldoClienteDTO relatorio = new RelatorioSaldoClienteDTO();
+		
 		relatorio.setNomeCliente(clienteCarregado.getNome());
 		relatorio.setDataCadastro(clienteCarregado.getDataCriacao());
 		// relatorio.setEndereco(clienteCarregado.getEndereco());
@@ -55,8 +56,9 @@ public class RelatorioSaldoClienteServico implements IRelatorioSaldoClienteServi
 
 		BigDecimal taxa = new BigDecimal("0.75");
 		BigDecimal custoMovimentacoes = taxa.multiply(relatorio.getSomaTotalMovimentacoes());
-		
 		relatorio.setCustoMovimentacoes(custoMovimentacoes);
+		
+		//todo: considerando conta_id: 1 * provisorio *
 		Conta contaCarregada = this.contaRepositorio.getById(1L);
 		relatorio.setSaldoInicial(contaCarregada.getSaldoInicial());
 		
