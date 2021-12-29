@@ -28,13 +28,13 @@ public class ContaController {
 	private IContaServico contaServico;
 	
 	
-	@GetMapping("/listar-todas")
+	@GetMapping("/listar-todas-contas")
 	public ResponseEntity<List<Conta>> listar() {
 		return ResponseEntity.status(HttpStatus.OK).body(this.contaServico.listarTudo());
 	}
 	
 	@GetMapping("listar-contas-por-cliente/{id}")
-	public ResponseEntity<List<Conta>> listarContarPorClienteId(@PathVariable Long id) {
+	public ResponseEntity<List<Conta>> listarContasPorClienteId(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(this.contaServico.listarContasPorClienteId(id));
 	}
 	

@@ -35,9 +35,8 @@ public class Conta implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	//FK
 	@JsonIgnore
-	@ManyToOne//(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
